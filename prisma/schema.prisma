@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Geozone {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  version   Int
+  filePath  String
+  fileSize  Int
+  description String?
+  uploadedAt DateTime @default(now())
+
+  @@unique([name, version])
+  @@index([name])
+}

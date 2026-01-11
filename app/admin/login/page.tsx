@@ -23,7 +23,7 @@ export default function SignupFormDemo() {
 
   useEffect(() => {
     if (status === "authenticated") {
-      router.push("/admin", undefined)
+      router.push("/admin/geozones", undefined)
     }
   }, [status, router])
 
@@ -41,8 +41,7 @@ export default function SignupFormDemo() {
     if (!response) {
       alert("Nastala neočakávaná chyba. Skús to, prosím, znova.")
     } else if (response.ok) {
-      router.push("/admin", undefined)
-      alert("Gratulujeme! Dostal si sa k nám do Administrácie!")
+      router.push("/admin/geozones", undefined)
     } else {
       alert("Nemáš dostatočné práva na prístup do tejto sekcie")
     }

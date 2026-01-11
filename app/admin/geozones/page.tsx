@@ -1,15 +1,27 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { GeozonesManager } from "@/components/geozones-manager"
-import { cn } from "@/lib/utils"
+import { useEffect, useState } from "react";
+import { GeozonesManager } from "@/components/geozones-manager";
+import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function AdminGeozonesPage() {
-  const [mounted, setMounted] = useState(false)
+  const [mounted, setMounted] = useState(false);
+
+  const { data: session, status } = useSession();
+  const router = useRouter();
 
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    if (status === "unauthenticated") {
+      alert("Ale ale ale.. Ty niesi prihlásený :) Presmerujem ťa na login.");
+      router.push("/login");
+    }
+  }, [status, router]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
@@ -28,16 +40,20 @@ export default function AdminGeozonesPage() {
       <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.03)_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none" />
 
       <div className="relative z-10 p-6 md:p-8 max-w-7xl mx-auto">
-
         <div
           className={cn(
             "mb-8 transition-all duration-700 ease-out",
-            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
+            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           )}
         >
           <div className="flex items-center gap-4 mb-4">
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-blue-500/25">
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg
+                className="w-6 h-6 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -51,7 +67,8 @@ export default function AdminGeozonesPage() {
                 Správa Geozón
               </h1>
               <p className="text-blue-200/60 mt-1">
-                Poďme urobiť prácu za Dopravnú úrad, kedže niesu schopní spraviť aplikáciu a legislatívu sami.
+                Poďme urobiť prácu za Dopravnú úrad, kedže niesu schopní spraviť
+                aplikáciu a legislatívu sami.
               </p>
             </div>
           </div>
@@ -60,12 +77,12 @@ export default function AdminGeozonesPage() {
         <div
           className={cn(
             "transition-all duration-700 delay-200 ease-out",
-            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
+            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           )}
         >
           <GeozonesManager />
         </div>
       </div>
     </div>
-  )
+  );
 }

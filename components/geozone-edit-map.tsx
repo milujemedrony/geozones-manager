@@ -126,6 +126,8 @@ export default function GeozoneEditMap({
         edit: {
           featureGroup: drawnItemsRef.current,
           remove: true,
+                    //@ts-ignore
+
           edit: true,
         },
       })
@@ -168,6 +170,8 @@ export default function GeozoneEditMap({
       if (geojsonData?.features) {
         geojsonData.features.forEach((feature, index) => {
           try {
+                      //@ts-ignore
+
             const layer = L.geoJSON(feature as L.GeoJSON.GeoJsonObject, {
               style: () => ({
                 color: selectedFeatureIndex === index ? "#f97316" : "#3b82f6",

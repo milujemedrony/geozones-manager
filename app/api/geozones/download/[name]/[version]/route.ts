@@ -13,12 +13,17 @@ export async function GET(
   try {
     const { name, version } = params;
 
-    if (name.includes("../") || version.includes("../")) {
+    if (!/^[a-zA-Z0-9_-]+$/.test(name)) {
+      return NextResponse.json({ error: "Invalid name" }, { status: 400 });
+    }
+
+    if (!/^\d+$/.test(version)) {
       return NextResponse.json(
-        { error: "What are you trying to do?" },
-        { status: 500 }
+        { error: "Invalid version number" },
+        { status: 400 }
       );
     }
+
 
     const versionNum = parseInt(version, 10);
 

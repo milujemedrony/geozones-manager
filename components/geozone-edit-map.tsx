@@ -83,6 +83,7 @@ export default function GeozoneEditMap({
       drawnItemsRef.current = new L.FeatureGroup()
       mapInstanceRef.current.addLayer(drawnItemsRef.current)
 
+      //@ts-ignore
       const drawControl = new L.Control.Draw({
         position: "topright",
         draw: {
@@ -132,8 +133,9 @@ export default function GeozoneEditMap({
         },
       })
       mapInstanceRef.current.addControl(drawControl)
-
+      //@ts-ignore
       mapInstanceRef.current.on(L.Draw.Event.CREATED, (e: L.LeafletEvent) => {
+        //@ts-ignore
         const layer = (e as L.DrawEvents.Created).layer
         drawnItemsRef.current?.addLayer(layer)
         featureLayersRef.current.set(layer, featureLayersRef.current.size)
@@ -148,9 +150,11 @@ export default function GeozoneEditMap({
         syncDataFromLayers()
       })
 
+      //@ts-ignore
       mapInstanceRef.current.on(L.Draw.Event.EDITED, () => {
         syncDataFromLayers()
       })
+      //@ts-ignore
 
       mapInstanceRef.current.on(L.Draw.Event.DELETED, () => {
         featureLayersRef.current.clear()

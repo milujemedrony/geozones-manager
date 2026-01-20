@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getServerAuthSession } from "@/lib/auth";
@@ -12,14 +14,12 @@ export async function GET(request: NextRequest) {
         orderBy: [{ name: "asc" }, { version: "desc" }],
         distinct: ["name"],
       });
-      return NextResponse.json({
-        success: true,
-        data: latestGeozones,
-      });
-    } else {
+
+      return NextResponse.json({ success: true, data: latestGeozones });
+    }
 
     const session = await getServerAuthSession();
-    if (!session || !session.user || !session.user.email) {
+    if (!session?.user?.email) {
       return NextResponse.json(
         { error: "NOT_AUTHORIZED", message: "User is not logged in" },
         { status: 401 }
@@ -30,11 +30,7 @@ export async function GET(request: NextRequest) {
       orderBy: [{ name: "asc" }, { version: "desc" }],
     });
 
-    return NextResponse.json({
-      success: true,
-      data: geozones,
-    });
-    }
+    return NextResponse.json({ success: true, data: geozones });
   } catch (error) {
     console.error("List error:", error);
     return NextResponse.json(
